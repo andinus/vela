@@ -1,30 +1,55 @@
 <template>
-<div id="nav">
-  <router-link to="/">Home</router-link> |
-  <router-link to="/about">About</router-link>
+<Header />
+<div class="content-wrapper">
+  <router-view />
 </div>
-<router-view/>
 </template>
 
+<script>
+import Header from '@/components/Header.vue'
+
+export default {
+    components: {
+        Header
+    }
+}
+</script>
+
 <style>
-#app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
+body {
+    background-color: var(--surface-b);
+    font-family: "Iosevka Aile", sans-serif;
+    color: var(--text-color);
 }
-
-#nav {
-    padding: 30px;
+.title { font-family: "Iosevka Etoile", serif; }
+h1, h2, h3, h4, h5,  h6 {
+    margin: 1.5rem 0 1rem 0;
+    font-family: "Iosevka Etoile", serif;
+    font-weight: 600;
+    line-height: 1.2;
+    color: inherit;
 }
-
-#nav a {
-    font-weight: bold;
-    color: #2c3e50;
+h1:first-child, h2:first-child, h3:first-child,
+h4:first-child, h5:first-child, h6:first-child { margin-top: 0; }
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+p {
+    line-height:1.5;
+    margin:0 0 1rem 0;
 }
-
-#nav a.router-link-exact-active {
-    color: #42b983;
+.content-wrapper {
+    padding: 0.8rem;
+}
+.card {
+    background: var(--surface-e);
+    padding: 2rem;
+    -webkit-box-shadow: 0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12);
+    box-shadow: 0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12);
+    border-radius: 4px;
+    margin-bottom: 2rem;
 }
 </style>

@@ -1,5 +1,5 @@
 #+title: Vela
-#+subtitle: Vela is a simple web application to share pictures with friends
+#+subtitle: Vela is a place to share smiles
 #+export_file_name: index
 #+setupfile: ~/.emacs.d/org-templates/projects.org
 
@@ -13,8 +13,8 @@ upload. They can share the public link with their friends. The upload
 link should be kept private.
 
 They can upload pictures of them or anything that they want to share
-with the private link. Visitors on the public link can view it but only
-once, pictures are deleted after someone views it once.
+with the private link. Visitors on the public link can view the /Smiles/
+but only once, pictures are deleted after it's viewed once.
 
 ** Why?
 
