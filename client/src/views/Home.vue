@@ -1,6 +1,6 @@
 <template>
 <div class="home">
-  <p id="subtitle">Vela is a place to share smiles.</p>
+  <p id="subtitle">Vela is a place to share smiles :)</p>
 
   <div class="card">
     <div class="grid">
@@ -17,7 +17,8 @@
           viewed once.
         </p>
       </div>
-      <div class="col-12 md:col-4 lg:col-6 flex align-items-center justify-content-center">
+      <div class="col-12 md:col-4 lg:col-6 flex align-items-center
+                  justify-content-center">
         <router-link to="/new">
           <Button label="New Smile" icon="pi pi-user-plus" iconPos="left" />
         </router-link>
