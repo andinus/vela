@@ -1,0 +1,21 @@
+#+title: Vela
+#+subtitle: Vela is a simple web application to share pictures with friends
+#+export_file_name: index
+#+setupfile: ~/.emacs.d/org-templates/projects.org
+
+| Website         | https://andinus.nand.sh/projects/vela |
+| GitHub (mirror) | https://github.com/andinus/vela       |
+
+* Documentation
+
+The idea is simple, users create a /Smile/ and receive two links: public,
+upload. They can share the public link with their friends. The upload
+link should be kept private.
+
+They can upload pictures of them or anything that they want to share
+with the private link. Visitors on the public link can view it but only
+once, pictures are deleted after someone views it once.
+
+** Why?
+
+Why not?
