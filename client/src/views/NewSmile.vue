@@ -14,15 +14,40 @@
       </div>
       <div class="col-12 md:col-6 flex align-items-center justify-content-center">
         <div class="p-inputgroup">
-          <Button icon="pi pi-user-plus" />
-          <InputText placeholder="Name" />
-          <Button label="Create" class="p-button-success" />
+          <InputText v-model="name" placeholder="Name" />
+          <Button @click="createSmile"
+                  icon="pi pi-user-plus" label="Create" class="p-button-success" />
         </div>
       </div>
     </div>
+    <ProgressBar v-if="showProgress" mode="indeterminate" style="height: .4em;" />
   </div>
+
+  <Toast />
 </div>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            name: '',
+            showProgress: false
+        }
+    },
+    methods: {
+        createSmile() {
+            if (this.name === '') {
+                this.$toast.add({severity:'warn', summary: 'Invalid Name',
+                                 detail:'Empty', life: 2000});
+                return;
+            }
+            this.showProgress = true;
+            console.log('Name', this.name);
+        }
+    }
+}
+</script>
 
 <style scoped>
 #subtitle {
