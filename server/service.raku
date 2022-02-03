@@ -7,9 +7,25 @@ unit sub MAIN(
 );
 
 my $application = route {
+    post -> 'new' {
+        request-body -> (:$name) {
+
+        }
+    }
+
+    # Serving static assets.
+    get -> 'js', *@path { static 'dist/js', @path; }
+    get -> 'css', *@path { static 'dist/css', @path; }
+    get -> 'img', *@path { static 'dist/img', @path; }
+    get -> 'fonts', *@path { static 'dist/fonts', @path; }
+
+    # Serve the app on all paths, it'll handle the routing.
+    get -> *@path {
+        static 'dist/index.html';
+    }
 };
 
-my $host = 0.0.0.0;
+my $host = "0.0.0.0";
 my $port = 9090;
 
 my Cro::Service $http = Cro::HTTP::Server.new(
