@@ -6,11 +6,52 @@ unit sub MAIN(
     Bool :$debug = True, #= enable debug mode
 );
 
-my $application = route {
-    post -> 'new' {
-        request-body -> (:$name) {
+my IO() $store = "store";
+mkdir $store;
+die "Store doesn't exist" unless $store.d;
 
+my $application = route {
+    post -> 'create' {
+        request-body -> (:$name) {
+            my Str $id = ('a'...'z', 'A'...'Z', 0...9).roll(32).join;
+            my Str $auth = ('a'...'z', 'A'...'Z', 0...9).roll(32).join;
+
+            my IO() $user-store = "%s/%s".sprintf: $store, $id;
+            mkdir $user-store;
+            die "Failed to create user store" unless $user-store.d;
+            spurt "$user-store/name", "$name";
+            spurt "$user-store/auth", "$auth";
+
+            content 'application/json', %(:$id, :$auth);
         }
+    }
+
+    post -> 'verify' {
+        request-body -> (:$id, :$auth) {
+            my IO() $user-store = "%s/%s".sprintf: $store, $id;
+            my %res;
+
+            if $user-store.d {
+                %res<name> = "$user-store/name".IO.slurp;
+                %res<status> = "Authentication Failed." if "$user-store/auth".IO.slurp ne $auth;
+                %res<status> //= "Verified";
+            } else {
+                %res<status> = "User doesn't exist or has been deleted.";
+            }
+
+            content 'application/json', %res;
+        }
+    }
+
+    post -> 'upload' {
+        request-body-blob
+        'image/png' => -> $png {
+            ...
+        },
+        'image/jpeg' => -> $jpeg {
+            ...
+        },
+        { bad-request 'text/plain', 'Only png or jpeg allowed'; }
     }
 
     # Serving static assets.
