@@ -44,15 +44,38 @@ export default {
             }
             this.showProgress = true;
             console.log('Name', this.name);
+
+            // const options = {
+            //     method: 'POST',
+            //     body: JSON.stringify( {
+            //         param1: "d",
+            //         param2: "d"
+            //     } )
+            // };
+
+            fetch('flowers.jpg')
+                .then(function(response) {
+                    if (!response.ok) {
+                        throw new Error('HTTP error, status = ' + response.status);
+                    }
+                    console.log(response);
+                    return response.blob();
+
+                })
+                .then(function(myBlob) {
+                    console.log(myBlob)
+                })
+                .catch(function(error) {
+                    console.log(error)
+                });
+
+            // fetch( '/path/', options )
+            //     .then( response => response.json() )
+            //     .then( response => {
+            //         console.log(response);
+            //         // Do something with response.
+            //     } );
         }
     }
-}
+    }
 </script>
-
-<style scoped>
-#subtitle {
-    font-size: 1.5rem;
-    text-align: center;
-    margin: 2rem 0;
-}
-</style>

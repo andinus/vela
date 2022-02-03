@@ -27,11 +27,3 @@
   </div>
 </div>
 </template>
-
-<style scoped>
-#subtitle {
-    font-size: 1.5rem;
-    text-align: center;
-    margin: 2rem 0;
-}
-</style>

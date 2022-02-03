@@ -52,4 +52,9 @@ p {
     border-radius: 4px;
     margin-bottom: 2rem;
 }
+#subtitle {
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 2rem 0;
+}
 </style>
