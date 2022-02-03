@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import Home from '../views/Home.vue';
-import NewSmile from '../views/NewSmile.vue';
+import CreateSmiles from '../views/CreateSmiles.vue';
 import GetSmile from '../views/GetSmile.vue';
-import UploadSmile from '../views/UploadSmile.vue';
+import ManageSmiles from '../views/ManageSmiles.vue';
 
 const routes = [
     {
@@ -12,23 +12,23 @@ const routes = [
         component: Home
     },
     {
-        path: '/new',
-        name: 'New Smile',
+        path: '/create',
+        name: 'CreateSmiles',
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         // component: () => import(/* webpackChunkName: "about" */ '../views/NewSmile.vue')
-        component: NewSmile
+        component: CreateSmiles
     },
     {
         path: '/:id',
-        name: 'Get Smile',
+        name: 'GetSmile',
         component: GetSmile
     },
     {
         path: '/:id/:auth',
-        name: 'Upload Smile',
-        component: UploadSmile
+        name: 'ManageSmiles',
+        component: ManageSmiles
     }
 ];
 

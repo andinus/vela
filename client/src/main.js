@@ -11,6 +11,8 @@ import Button from 'primevue/button';
 import Card from 'primevue/card';
 import Toast from 'primevue/toast';
 import ProgressBar from 'primevue/progressbar';
+import Message from 'primevue/message';
+import FileUpload from 'primevue/fileupload';
 
 import 'primevue/resources/themes/lara-dark-blue/theme.css';
 import 'primevue/resources/primevue.min.css';
@@ -28,6 +30,8 @@ app.component('InputText', InputText);
 app.component('Button', Button);
 app.component('Card', Card);
 app.component('Toast', Toast);
+app.component('Message', Message);
 app.component('ProgressBar', ProgressBar);
+app.component('FileUpload', FileUpload);
 
 app.mount('#app');
