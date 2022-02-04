@@ -67,7 +67,7 @@ my $application = route {
                 my Str @messages;
                 @messages.push("Max file size exceeded")
                     if $img.body-blob.bytes > 2097152; # 1024 * 1024 * 2
-                @messages.push("Only png/jpeg allowed");
+                @messages.push("Only png/jpeg allowed")
                     if $img.content-type ne "image/png"|"image/jpeg";
 
                 $stored = False if @messages.elems;
@@ -83,6 +83,30 @@ my $application = route {
             }
 
             content 'application/json', @res;
+        }
+    }
+
+    get -> 'smile', $id {
+        my IO() $user-store = "%s/%s".sprintf: $store, $id;
+
+        my $img;
+        if "$user-store/images".IO.d {
+            put "huh";
+            my @imgs = dir("$user-store/images").grep(*.f);
+            if @imgs.elems {
+                $img = @imgs.pick(1).first;
+            } else {
+                response.status = 406;
+            }
+        } else {
+            response.status = 404;
+        }
+
+        if $img {
+            static $img;
+            $img.unlink;
+        } else {
+            content 'text/plain', '';
         }
     }
 

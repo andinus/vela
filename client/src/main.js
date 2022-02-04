@@ -13,6 +13,7 @@ import Toast from 'primevue/toast';
 import ProgressBar from 'primevue/progressbar';
 import Message from 'primevue/message';
 import FileUpload from 'primevue/fileupload';
+import Image from 'primevue/image';
 
 import 'primevue/resources/themes/lara-dark-blue/theme.css';
 import 'primevue/resources/primevue.min.css';
@@ -33,5 +34,6 @@ app.component('Toast', Toast);
 app.component('Message', Message);
 app.component('ProgressBar', ProgressBar);
 app.component('FileUpload', FileUpload);
+app.component('Image', Image);
 
 app.mount('#app');

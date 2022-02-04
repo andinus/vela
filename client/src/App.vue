@@ -41,9 +41,20 @@ p {
     line-height:1.5;
     margin:0 0 1rem 0;
 }
-.content-wrapper {
-    padding: 0.8rem;
+.content-wrapper { padding: 1rem; }
+@media screen and (min-width: 35.5em) {
+    .content-wrapper { padding: 2rem; }
 }
+@media screen and (min-width: 48em) {
+    .content-wrapper { padding: 3rem; }
+}
+@media screen and (min-width: 64em) {
+    .content-wrapper { padding: 4rem; }
+}
+@media screen and (min-width: 80em) {
+    .content-wrapper { padding: 6rem; }
+}
+
 .card {
     background: var(--surface-e);
     padding: 2rem;
