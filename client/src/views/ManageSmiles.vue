@@ -25,7 +25,10 @@
         </div>
       </div>
       <div class="col-12 md:col-6">
-        <FileUpload name="demo[]" url="/upload" @upload="onUpload" :multiple="true" accept="image/*" :maxFileSize="1000000">
+        <FileUpload @error="onError" @before-send="beforeSend" @upload="onUpload"
+                    name="images" url="http://localhost:9090/upload"
+                    :multiple="true" accept="image/*"
+                    :maxFileSize="2097152"> <!-- 1024 * 1024 * 2 -->
           <template #empty>
             <p>Drag and drop files to here to upload.</p>
           </template>
@@ -61,6 +64,39 @@ export default {
             link.push(this.id);
             return link.join('/');
         },
+        beforeSend(xhr) {
+            xhr.formData.append('id', this.id);
+            xhr.formData.append('auth', this.auth);
+        },
+        onError(error) {
+            this.$toast.add(
+                {severity: 'error',
+                 summary: 'Upload failed',
+                 detail: `${error.xhr.status} ${error.xhr.statusText} | ${error.xhr.response}`});
+        },
+        onUpload(res) {
+            const response = JSON.parse(res.xhr.response);
+            for(let i = 0; i < response.length; i++) {
+                const x = response[i];
+                if (x.stored === false) {
+                    this.$toast.add(
+                        {
+                            severity: 'error',
+                            summary: 'Upload failed',
+                            detail: `${x.filename}: ${x.messages}`
+                        }
+                    );
+                } else if (x.messages.length !== 0) {
+                    this.$toast.add(
+                        {
+                            severity: 'warn',
+                            summary: 'Upload Issues',
+                            detail: `${x.filename}: ${x.messages}`
+                        }
+                    );
+                }
+            }
+        },
         verify() {
             const data = { id: this.id, auth: this.auth };
             const toast = this.$toast;
@@ -73,12 +109,15 @@ export default {
                 referrerPolicy: 'no-referrer',
                 body: JSON.stringify(data)
             }).then(response => {
+                if (response.status === 401)
+                    throw new Error(response.status + ' # ' + 'Authentication Failed');
+                if (response.status === 404)
+                    throw new Error(response.status + ' # ' + 'Smiles deleted or invalid link');
                 if (!response.ok)
                     throw new Error('HTTP error, status = ' + response.status);
                 return response.json();
             }).then(res => {
                 this.name = res.name;
-                console.log(res);
                 this.verified = true;
             }).catch(error => {
                 console.log(error)

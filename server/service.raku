@@ -18,6 +18,7 @@ my $application = route {
 
             my IO() $user-store = "%s/%s".sprintf: $store, $id;
             mkdir $user-store;
+            mkdir "$user-store/images";
             die "Failed to create user store" unless $user-store.d;
             spurt "$user-store/name", "$name";
             spurt "$user-store/auth", "$auth";
@@ -29,14 +30,16 @@ my $application = route {
     post -> 'verify' {
         request-body -> (:$id, :$auth) {
             my IO() $user-store = "%s/%s".sprintf: $store, $id;
-            my %res;
 
+            my %res;
             if $user-store.d {
-                %res<name> = "$user-store/name".IO.slurp;
-                %res<status> = "Authentication Failed." if "$user-store/auth".IO.slurp ne $auth;
-                %res<status> //= "Verified";
+                if "$user-store/auth".IO.slurp ne $auth {
+                    response.status = 401;
+                } else {
+                    %res<name> = "$user-store/name".IO.slurp;
+                }
             } else {
-                %res<status> = "User doesn't exist or has been deleted.";
+                response.status = 404;
             }
 
             content 'application/json', %res;
@@ -44,14 +47,43 @@ my $application = route {
     }
 
     post -> 'upload' {
-        request-body-blob
-        'image/png' => -> $png {
-            ...
-        },
-        'image/jpeg' => -> $jpeg {
-            ...
-        },
-        { bad-request 'text/plain', 'Only png or jpeg allowed'; }
+        request-body -> (:$id is copy, :$auth is copy, :$images) {
+            $id .= body-text;
+            $auth .= body-text;
+
+            my Bool $skip-loop;
+            my IO() $user-store = "%s/%s".sprintf: $store, $id;
+            if "$user-store/auth".IO.slurp ne $auth {
+                response.status = 401;
+                $skip-loop = True;
+            }
+
+            my @res;
+            IMAGE: for @($images) -> $img {
+                last IMAGE if $skip-loop;
+
+                my Bool $stored = True;
+
+                my Str @messages;
+                @messages.push("Max file size exceeded")
+                    if $img.body-blob.bytes > 2097152; # 1024 * 1024 * 2
+                @messages.push("Only png/jpeg allowed");
+                    if $img.content-type ne "image/png"|"image/jpeg";
+
+                $stored = False if @messages.elems;
+                if $stored {
+                    my Str $filename = ('a'...'z', 'A'...'Z', 0...9).roll(16).join;
+                    spurt "$user-store/images/$filename", $img.body-blob;
+                }
+
+                push @res, %(
+                    filename => $img.filename,
+                    :@messages, :$stored
+                );
+            }
+
+            content 'application/json', @res;
+        }
     }
 
     # Serving static assets.
