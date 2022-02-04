@@ -4,6 +4,7 @@
 #+setupfile: ~/.emacs.d/org-templates/projects.org
 
 | Website         | https://andinus.nand.sh/projects/vela |
+| Source Code     | https://git.unfla.me/vela             |
 | GitHub (mirror) | https://github.com/andinus/vela       |
 
 * Documentation
@@ -19,3 +20,12 @@ but only once, pictures are deleted after it's viewed once.
 ** Why?
 
 Why not?
+
+I wrote this to play with Vue.
+
+** Server
+
+The server is written in Raku and the implementation is not good.
+
+Look at this blog post for better implementation:
+- https://raku-advent.blog/2019/12/02/crud-cro-http-tutorial/
