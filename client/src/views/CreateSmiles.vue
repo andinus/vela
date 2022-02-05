@@ -104,7 +104,7 @@ export default {
             const toast = this.$toast;
 
             this.showProgress = true;
-            fetch('http://localhost:9090/create', {
+            fetch('./create', {
                 method: 'POST',
                 cache: 'no-cache',
                 headers: { 'Content-Type': 'application/json' },

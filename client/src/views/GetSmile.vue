@@ -41,7 +41,7 @@ export default {
 
             this.showLoading = true;
             fetch(
-                `http://localhost:9090/smile/${this.id}`,
+                `../smile/${this.id}`,
                 { cache: 'no-cache', referrerPolicy: 'no-referrer', responseType: 'blob' }
             ).then(response => {
                 if (response.status === 404)

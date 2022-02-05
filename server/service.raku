@@ -91,7 +91,6 @@ my $application = route {
 
         my $img;
         if "$user-store/images".IO.d {
-            put "huh";
             my @imgs = dir("$user-store/images").grep(*.f);
             if @imgs.elems {
                 $img = @imgs.pick(1).first;
@@ -111,10 +110,16 @@ my $application = route {
     }
 
     # Serving static assets.
+
+    # Quick fix for an issue.
     get -> 'js', *@path { static 'dist/js', @path; }
     get -> 'css', *@path { static 'dist/css', @path; }
     get -> 'img', *@path { static 'dist/img', @path; }
     get -> 'fonts', *@path { static 'dist/fonts', @path; }
+    get -> $x, 'js', *@path { static 'dist/js', @path; }
+    get -> $x, 'css', *@path { static 'dist/css', @path; }
+    get -> $x, 'img', *@path { static 'dist/img', @path; }
+    get -> $x, 'fonts', *@path { static 'dist/fonts', @path; }
 
     # Serve the app on all paths, it'll handle the routing.
     get -> *@path {

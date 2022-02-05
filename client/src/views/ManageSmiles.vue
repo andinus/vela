@@ -26,7 +26,7 @@
       </div>
       <div class="col-12 md:col-6">
         <FileUpload @error="onError" @before-send="beforeSend" @upload="onUpload"
-                    name="images" url="http://localhost:9090/upload"
+                    name="images" url="../../upload"
                     :multiple="true" accept="image/*"
                     :maxFileSize="2097152"> <!-- 1024 * 1024 * 2 -->
           <template #empty>
@@ -102,7 +102,7 @@ export default {
             const toast = this.$toast;
 
             this.showLoading = true;
-            fetch('http://localhost:9090/verify', {
+            fetch('../../verify', {
                 method: 'POST',
                 cache: 'no-cache',
                 headers: { 'Content-Type': 'application/json' },
